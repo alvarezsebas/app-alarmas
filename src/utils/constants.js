@@ -1,4 +1,5 @@
-export const API_HOST = "https://pokeapi.co/api/v2";
+export const API_HOST = "http://138.121.170.119:3001";
+export const API_SOCKET = "http://138.121.170.119:5000";
 export const FAVORITE_STORAGE = "pokemonsfav";
 
 export const POKEMON_TYPE_COLORS = {
@@ -20,4 +21,16 @@ export const POKEMON_TYPE_COLORS = {
   dragon: "#7038F8",
   dark: "#705848",
   fairy: "#EE99AC",
+};
+
+export const codigoEventos = {
+  120: "Pánico",
+  121: "Coacción",
+  122: "Pánico silencioso",
+  123: "Pánico audible",
+  124: "Coacción ingreso",
+  125: "Coacción salida",
+  130: "Robo",
+  131: "Robo perímetro",
+  132: "Robo interiores",
 };

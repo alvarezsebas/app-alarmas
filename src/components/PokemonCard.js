@@ -11,14 +11,14 @@ import { useNavigation } from "@react-navigation/native";
 import getColorByPokemonType from "../utils/getColorByPokemonType";
 
 export default function PokemonCard(props) {
-  const { pokemon } = props;
+  const { evento } = props;
   const navigation = useNavigation();
 
-  const pokemonColor = getColorByPokemonType(pokemon.type);
+  const pokemonColor = getColorByPokemonType(evento.type);
   const bgStyles = { backgroundColor: pokemonColor, ...styles.bgStyles };
 
   const goToPokemon = () => {
-    navigation.navigate("Pokemon", { id: pokemon.id });
+    navigation.navigate("Pokemon", { id: evento._id });
   };
 
   return (
@@ -27,10 +27,14 @@ export default function PokemonCard(props) {
         <View style={styles.spacing}>
           <View style={bgStyles}>
             <Text style={styles.number}>
-              #{`${pokemon.order}`.padStart(3, 0)}
+              {evento.abonado}
             </Text>
-            <Text style={styles.name}>{capitalize(pokemon.name)}</Text>
-            <Image source={{ uri: pokemon.image }} style={styles.image} />
+            <Text style={styles.name}> {evento.aliasAbonado}  </Text>
+            <Text style={styles.name}> {evento.nombreEvento} </Text>
+            <Image 
+              source={require("../assets/sirena.png")}
+              style={styles.image}
+            />
           </View>
         </View>
       </View>

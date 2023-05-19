@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "996453573963",
+    "project_id": "pruebas-alarmas",
+    "storage_bucket": "pruebas-alarmas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:996453573963:android:8be62467145a5b1c3974ce",
+        "android_client_info": {
+          "package_name": "com.alvarezsebas92.MonitreoReaccionar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "996453573963-aq3qq8s3as18hso14ltfrbpphtkogqmh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_xBLbvzU-nbKC8bURvuOU9fWp8D3CoQw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "996453573963-aq3qq8s3as18hso14ltfrbpphtkogqmh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

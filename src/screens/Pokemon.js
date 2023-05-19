@@ -1,59 +1,69 @@
 import React, { useState, useEffect } from "react";
 import { ScrollView } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome5";
-import { getPokemonDetailsApi } from "../api/pokemon";
 import Header from "../components/Pokemon/Header";
 import Type from "../components/Pokemon/Type";
 import Stats from "../components/Pokemon/Stats";
-import Favorite from "../components/Pokemon/Favorite";
-import useAuth from "../hooks/useAuth";
+import { getEventoDetails } from "../api/eventos";
+import { getAbonados} from "../api/infoAbonados";
+import socketServices from "../api/socket";
+import getNombreEvento from "../utils/getNombreEvento";
+
 
 export default function Pokemon(props) {
+   
   const {
     navigation,
     route: { params },
   } = props;
-  const [pokemon, setPokemon] = useState(null);
-  const { auth } = useAuth();
+  const [evento, setEvento] = useState(null);
+  const [data, setData] = useState([])
 
   useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => auth && <Favorite id={pokemon?.id} />,
-      headerLeft: () => (
-        <Icon
-          name="arrow-left"
-          color="#fff"
-          size={20}
-          style={{ marginLeft: 20 }}
-          onPress={navigation.goBack}
-        />
-      ),
-    });
-  }, [navigation, params, pokemon]);
-
+    socketServices.initializeSocket();
+  }, [])
+ 
   useEffect(() => {
     (async () => {
       try {
-        const response = await getPokemonDetailsApi(params.id);
-        setPokemon(response);
+
+        const response = await getEventoDetails(params.id);
+        const abonados = await getAbonados();
+        const eventoArray = [];
+        for await (const abonadoItem of abonados.abonados) {
+          if (response.evento.abonado === abonadoItem.numeroAbonado) {
+            const nombreEvento = getNombreEvento(response.evento.codigoEvento);
+            eventoArray.push({
+              _id: response.evento._id,
+              codigoEvento: response.evento.codigoEvento,
+              fechaEvento: response.evento.fechaEvento,
+              zona: response.evento.zona,
+              nombreEvento: nombreEvento,
+              usuarios: abonadoItem.usuariosAbonado,
+              abonado: response.evento.abonado,
+              aliasAbonado: abonadoItem.aliasAbonado,
+              ciudadAbonado: abonadoItem.ciudadAbonado,
+              direccionAbonado: abonadoItem.direccionAbonado,
+              type: 'fire',
+            });
+            setEvento([...eventoArray]);
+          }
+        }
+        
+        
       } catch (error) {
         navigation.goBack();
       }
     })();
   }, [params]);
-
-  if (!pokemon) return null;
-
+  console.log(evento);
+  if (!evento) return null;
   return (
     <ScrollView>
       <Header
-        name={pokemon.name}
-        order={pokemon.order}
-        image={pokemon.sprites.other["official-artwork"].front_default}
-        type={pokemon.types[0].type.name}
+        datos={evento}
       />
-      <Type types={pokemon.types} />
-      <Stats stats={pokemon.stats} />
+      <Type />
+      <Stats datos={evento} />
     </ScrollView>
   );
 }

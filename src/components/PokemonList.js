@@ -8,31 +8,17 @@ import {
 import PokemonCard from "./PokemonCard";
 
 export default function PokemonList(props) {
-  const { pokemons, loadPokemons, isNext } = props;
+  const { eventos} = props;
 
-  const laodMore = () => {
-    loadPokemons();
-  };
 
   return (
     <FlatList
-      data={pokemons}
+      data={eventos}
       numColumns={2}
       showsVerticalScrollIndicator={false}
-      keyExtractor={(pokemon) => String(pokemon.id)}
-      renderItem={({ item }) => <PokemonCard pokemon={item} />}
+      keyExtractor={(evento) => String(evento._id)}
+      renderItem={({ item }) => <PokemonCard evento={item} />}
       contentContainerStyle={styles.flatListContentContainer}
-      onEndReached={isNext && laodMore}
-      onEndReachedThreshold={0.1}
-      ListFooterComponent={
-        isNext && (
-          <ActivityIndicator
-            size="large"
-            style={styles.spinner}
-            color="#AEAEAE"
-          />
-        )
-      }
     />
   );
 }

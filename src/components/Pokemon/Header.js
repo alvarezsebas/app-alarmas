@@ -1,13 +1,30 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, SafeAreaView, Text, Image } from "react-native";
 import { capitalize } from "lodash";
 import getColorByPokemonType from "../../utils/getColorByPokemonType";
 
 export default function Header(props) {
-  const { name, order, image, type } = props;
-  const color = getColorByPokemonType(type);
+  const { datos } = props;
+
+  const color = getColorByPokemonType(datos[0].type);
 
   const bgStyle = [{ backgroundColor: color, ...styles.bg }];
+
+  const [currentDate, setCurrentDate] = useState('');
+
+  useEffect(() => {
+    const date = new Date(datos[0].fechaEvento);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    const hours = date.getHours();
+    const min = date.getMinutes();
+    const sec = date.getMinutes();
+
+    setCurrentDate(day + '/' + month + '/' + year 
+    + ' ' + hours + ':' + min + ':' + sec);
+   
+  },[])
 
   return (
     <>
@@ -15,11 +32,20 @@ export default function Header(props) {
 
       <SafeAreaView style={styles.content}>
         <View style={styles.header}>
-          <Text style={styles.name}>{capitalize(name)}</Text>
-          <Text style={styles.order}>#{`${order}`.padStart(3, 0)}</Text>
+          <Text style={styles.name}>{datos[0].aliasAbonado} {datos[0].ciudadAbonado} </Text>
+          <Text style={styles.order}>
+            #{`${datos[0].abonado}`.padStart(3, 0)}
+          </Text>
+        </View>
+        <View>
+        <Text style={styles.name}>Evento: {datos[0].nombreEvento} </Text>
+        <Text style={styles.name}>Fecha evento: {currentDate} </Text>
         </View>
         <View style={styles.contentImg}>
-          <Image source={{ uri: image }} style={styles.image} />
+          <Image
+            source={require("../../assets/sirena.png")}
+            style={styles.image}
+          />
         </View>
       </SafeAreaView>
     </>
@@ -50,6 +76,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 27,
   },
+  fecha: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 27,
+    marginTop: 20
+  },
   order: {
     color: "#fff",
     fontWeight: "bold",
@@ -61,8 +93,8 @@ const styles = StyleSheet.create({
     top: 30,
   },
   image: {
-    width: 250,
-    height: 300,
+    width: 180,
+    height: 120,
     resizeMode: "contain",
   },
 });

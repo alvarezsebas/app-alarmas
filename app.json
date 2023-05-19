@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "pokedex",
-    "slug": "pokedex",
+    "name": "MonitreoReaccionar",
+    "slug": "MonitreoReaccionar",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#f00"
+      "backgroundColor": "#ffffff"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -20,14 +20,29 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "es.tincode.pokedex",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "foregroundImage": "./assets/adaptative-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.alvarezsebas92.MonitreoReaccionar",
+      "googleServicesFile":"./google-services.json",
+      "versionCode": 1
     },
+    "plugins": [
+      ["expo-notifications",
+        {
+          "sounds": [
+            "./assets/sonidos/notificacion.wav"
+          ]
+        }]
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f4e3b76e-d71a-4763-a072-4069cac8df6f"
+      }
     }
   }
 }

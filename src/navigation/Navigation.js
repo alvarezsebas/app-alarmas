@@ -1,55 +1,47 @@
 import React from "react";
 import { Image } from "react-native";
+import Account from "../screens/Account";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/FontAwesome5";
-import FavoriteNavigation from "./FavoriteNavigation";
 import PokedexNavigation from "./PokedexNavigation";
-import AccountNavigation from "./AccountNavigation";
-
+import useAuth from '../hooks/useAuth';
 const Tab = createBottomTabNavigator();
 
 export default function Navigation() {
+  const {auth} = useAuth();
   return (
     <Tab.Navigator initialRouteName="Pokedex">
-      <Tab.Screen
-        name="Favorite"
-        component={FavoriteNavigation}
-        options={{
-          tabBarLabel: "Favoritos",
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="heart" color={color} size={size} />
-          ),
-        }}
-      />
-
-      <Tab.Screen
-        name="Pokedex"
-        component={PokedexNavigation}
-        options={{
-          tabBarLabel: "",
-          tabBarIcon: () => renderPokeball(),
-        }}
-      />
-
-      <Tab.Screen
-        name="Account"
-        component={AccountNavigation}
-        options={{
-          tabBarLabel: "Mi cuenta",
-          tabBarIcon: ({ color, size }) => (
-            <Icon name="user" color={color} size={size} />
-          ),
-        }}
-      />
+      
+      {auth ? (
+        <Tab.Screen
+          name="Pokedex"
+          component={PokedexNavigation}
+          options={{
+            tabBarLabel: "",
+            tabBarIcon: () => renderLogo(),
+            headerTitleAlign: "center",
+          }}
+        />
+      ) : (
+        <Tab.Screen
+          name="Iniciar sesión"
+          component={Account}
+          options={{
+            tabBarLabel: "",
+            tabBarIcon: () => renderLogo(),
+            headerTitleAlign: "center",
+          }}
+        />
+      )}
     </Tab.Navigator>
   );
 }
 
-function renderPokeball() {
+function renderLogo() {
   return (
     <Image
-      source={require("../assets/pokeball.png")}
-      style={{ width: 75, height: 75, top: -15 }}
+      source={require("../assets/logo.png")}
+      style={{ width: 100, height: 100, top: -15 }}
     />
   );
 }

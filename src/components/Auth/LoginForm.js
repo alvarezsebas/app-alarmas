@@ -6,11 +6,15 @@ import {
   TextInput,
   Button,
   Keyboard,
+  ToastAndroid,
 } from "react-native";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { user, userDetails } from "../../utils/userDB";
 import useAuth from "../../hooks/useAuth";
+import { postLogin } from "../../api/auth";
+import { checkStatus, register } from "../../screens/Pokedex";
+
 
 export default function LoginForm() {
   const [error, setError] = useState("");
@@ -20,14 +24,19 @@ export default function LoginForm() {
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()),
     validateOnChange: false,
-    onSubmit: (formValue) => {
+    onSubmit: async (formValue) => {
       setError("");
       const { username, password } = formValue;
-
-      if (username !== user.username || password !== user.password) {
-        setError("El usuario o la contraseña no son correcto");
+      
+     const response = await postLogin(formValue.username, formValue.password)
+      console.log(response);
+      if (response.ok === true) {
+        register();
+        const result = await checkStatus();
+        login(response.usuario);
+        
       } else {
-        login(userDetails);
+        ToastAndroid.show('El usuario o contraseña son incorrectos', ToastAndroid.SHORT);
       }
     },
   });

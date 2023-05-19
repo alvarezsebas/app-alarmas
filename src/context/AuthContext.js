@@ -12,6 +12,7 @@ export function AuthProvider(props) {
 
   const login = (userData) => {
     setAuth(userData);
+
   };
 
   const logout = () => {
